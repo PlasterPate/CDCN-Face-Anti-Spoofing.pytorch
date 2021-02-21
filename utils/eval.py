@@ -22,8 +22,9 @@ def add_visualization_to_tensorboard(cfg, epoch, img_batch, preds, targets, scor
 
     for idx in range(img_batch.shape[0]):
         vis_img = img_transform(img_batch[idx].cpu())
-        ImageDraw.Draw(vis_img).text((0,0), 'pred: {} vs gt: {}'.format(int(preds[idx]), int(targets[idx])), (255,0,255))
-        ImageDraw.Draw(vis_img).text((20,20), 'score {}'.format(score[idx]), (255,0,255))
+        ImageDraw.Draw(vis_img).text((0, 0), 'pred: {} vs gt: {}'.format(int(preds[idx]), int(targets[idx])),
+                                     (255, 0, 255))
+        ImageDraw.Draw(vis_img).text((20, 20), 'score {}'.format(score[idx]), (255, 0, 255))
         tb_img = ts_transform(vis_img)
         writer.add_image('Prediction visualization/{}'.format(idx), tb_img, epoch)
 
@@ -38,7 +39,9 @@ def predict(depth_map, threshold=0.5):
         Predicted score
     """
     with torch.no_grad():
-        score = torch.mean(depth_map, axis=(1,2))
+        # score = torch.mean(depth_map, dim=(1, 2))
+        # preds = (score >= threshold).type(torch.cuda.FloatTensor)
+        score = torch.mean(depth_map, axis=(1, 2))
         preds = (score >= threshold).type(torch.FloatTensor)
 
         return preds, score
@@ -56,3 +59,4 @@ def calc_accuracy(preds, targets):
     with torch.no_grad():
         equals = torch.mean(preds.eq(targets).type(torch.FloatTensor))
         return equals.item()
+

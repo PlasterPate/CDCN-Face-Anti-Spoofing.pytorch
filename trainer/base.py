@@ -9,6 +9,7 @@ class BaseTrainer():
         self.trainloader = trainloader
         self.valloader = valloader
         self.writer = writer
+        self.best_val_acc = 0
 
     
     def load_model(self):
@@ -19,7 +20,7 @@ class BaseTrainer():
         raise NotImplementedError
 
 
-    def train_one_epoch(self):
+    def train_one_epoch(self, epoch):
         raise NotImplementedError
 
 
@@ -27,5 +28,5 @@ class BaseTrainer():
         raise NotImplementedError
 
 
-    def validate(self):
+    def validate(self, epoch):
         raise NotImplementedError

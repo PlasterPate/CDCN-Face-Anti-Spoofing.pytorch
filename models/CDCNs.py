@@ -146,8 +146,7 @@ class CDCN(nn.Module):
             basic_conv(64, 1, kernel_size=3, stride=1, padding=1, bias=False, theta= theta),
             nn.ReLU(),    
         )
-        
-        
+
         self.downsample32x32 = nn.Upsample(size=(32, 32), mode='bilinear')
 
  
@@ -177,7 +176,6 @@ class CDCN(nn.Module):
         
         return map_x, x_concat, x_Block1, x_Block2, x_Block3, x_input
 
-		
 
 class CDCNpp(nn.Module):
 
@@ -195,8 +193,7 @@ class CDCNpp(nn.Module):
         self.Block1 = nn.Sequential(
             basic_conv(64, 128, kernel_size=3, stride=1, padding=1, bias=False, theta= theta),
             nn.BatchNorm2d(128),
-            nn.ReLU(),  
-            
+            nn.ReLU(),
             basic_conv(128, int(128*1.6), kernel_size=3, stride=1, padding=1, bias=False, theta= theta),
             nn.BatchNorm2d(int(128*1.6)),
             nn.ReLU(),  
@@ -247,14 +244,11 @@ class CDCNpp(nn.Module):
             basic_conv(128, 1, kernel_size=3, stride=1, padding=1, bias=False, theta= theta),
             nn.ReLU(),    
         )
-        
-      
         self.sa1 = SpatialAttention(kernel = 7)
         self.sa2 = SpatialAttention(kernel = 5)
         self.sa3 = SpatialAttention(kernel = 3)
         self.downsample32x32 = nn.Upsample(size=(32, 32), mode='bilinear')
 
- 
     def forward(self, x):	    	# x [3, 256, 256]
         
         x_input = x
@@ -284,7 +278,3 @@ class CDCNpp(nn.Module):
         map_x = map_x.squeeze(1)
         
         return map_x, x_concat, attention1, attention2, attention3, x_input
-		
-
-
-
