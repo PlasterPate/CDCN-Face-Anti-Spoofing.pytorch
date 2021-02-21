@@ -47,7 +47,7 @@ class FASDataset(Dataset):
         # if index % 500 == 0:
         #     print(np.array(img).shape)
 
-        label = np.float32(0) if img_name.split("_")[0] == "fake" else np.float32(1)
+        label = np.float32(1) if img_name.split(".")[0].split('_')[-1] == "1" else np.float32(0)
         label = np.expand_dims(label, axis=0)
 
         if label == 1:
