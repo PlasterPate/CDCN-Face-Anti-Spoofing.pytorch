@@ -99,8 +99,8 @@ if __name__ == '__main__':
         writer=writer
     )
 
-    # trainer.train()
+    trainer.train()
 
-    preds = trainer.test()
+    # preds = trainer.test()
 
     writer.close()

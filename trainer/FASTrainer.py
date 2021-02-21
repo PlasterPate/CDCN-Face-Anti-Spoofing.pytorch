@@ -7,6 +7,9 @@ from trainer.base import BaseTrainer
 from utils.meters import AvgMeter
 from utils.eval import add_visualization_to_tensorboard, predict, calc_accuracy
 import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix, f1_score
+
+TARGET_NAMES = ['Fake', 'Real']
 
 
 class FASTrainer(BaseTrainer):
@@ -85,12 +88,15 @@ class FASTrainer(BaseTrainer):
             self.train_loss_metric.update(loss.item())
             self.train_acc_metric.update(accuracy)
 
-            print('Epoch: {}, iter: {}, loss: {}, acc: {}'.format(epoch, epoch * len(self.trainloader) + i,
-                                                                  self.train_loss_metric.avg,
-                                                                  self.train_acc_metric.avg))
+            # print('Epoch: {}, iter: {}, loss: {}, acc: {}'.format(epoch, epoch * len(self.trainloader) + i,
+            #                                                       self.train_loss_metric.avg,
+            #                                                       self.train_acc_metric.avg))
+        print(f'Epoch: {epoch}')
+        cm = confusion_matrix(y_true, y_pred)
+        print(cm)
+        cr = classification_report(y_true, y_pred, target_names=TARGET_NAMES)
+        print(cr)
 
-        print("y_pred: ", len(y_pred), np.sum(y_pred))
-        print("y_true: ", len(y_true), np.sum(y_true))
 
     def train(self):
         # self.load_model()
@@ -155,9 +161,10 @@ class FASTrainer(BaseTrainer):
                 self.test_loss_metric.update(loss.item())
                 self.test_acc_metric.update(accuracy)
 
-            print('loss: {}, acc: {}'.format(self.test_loss_metric.avg, self.test_acc_metric.avg))
-            # print("Score: ", score)
-        print("y_pred: ", len(y_pred), np.sum(y_pred))
-        print("y_true: ", len(y_true), np.sum(y_true))
+            # print('loss: {}, acc: {}'.format(self.test_loss_metric.avg, self.test_acc_metric.avg))
+        cm = confusion_matrix(y_true, y_pred)
+        print(cm)
+        cr = classification_report(y_true, y_pred, target_names=TARGET_NAMES)
+        print(cr)
 
         return y_pred

@@ -1,6 +1,7 @@
 *__pycache__/
 venv
 experiments
+datasets
 data
 data1
 .idea

@@ -19,17 +19,17 @@ def contrast_depth_conv(input, device):
                          ]
     
     kernel_filter = np.array(kernel_filter_list, np.float32)
-    print(kernel_filter.shape)
+    # print(kernel_filter.shape)
     kernel_filter = torch.from_numpy(kernel_filter.astype(np.float)).float().to(device)
     # weights (in_channel, out_channel, kernel, kernel)
     kernel_filter = kernel_filter.unsqueeze(dim=1)
-    print(kernel_filter.shape)
+    # print(kernel_filter.shape)
 
-    print(input.shape)
+    # print(input.shape)
     input = input.unsqueeze(dim=1).expand(input.shape[0], 8, input.shape[1],input.shape[2])
-    print(input.shape)
+    # print(input.shape)
     contrast_depth = F.conv2d(input, weight=kernel_filter, groups=8)  # depthwise conv
-    print(contrast_depth.shape)
+    # print(contrast_depth.shape)
     
     return contrast_depth
 
